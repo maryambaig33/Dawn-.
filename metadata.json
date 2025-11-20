@@ -1,0 +1,8 @@
+{
+  "name": "Dawn - Intelligent Bakery Partner",
+  "description": "An AI-powered assistant for professional bakers, featuring recipe generation, trend analysis, and operational insights.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
