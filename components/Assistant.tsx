@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Sparkles, Loader2 } from 'lucide-react';
+import { Send, Bot, User, Sparkles, Loader2, Croissant } from 'lucide-react';
 import { ChatMessage, MessageRole } from '../types';
 import { chatWithAssistant } from '../services/geminiService';
 
@@ -8,7 +8,7 @@ export const Assistant: React.FC = () => {
     {
       id: '1',
       role: MessageRole.MODEL,
-      text: "Hello! I'm Dawn, your intelligent bakery partner. How can I help you today? I can assist with recipes, troubleshooting baking issues, or market trends.",
+      text: "Hello! I'm Dawn, your intelligent bakery partner. Whether you need to adjust a recipe for humidity or track down the latest pastry trends, I'm here to help.",
       timestamp: new Date()
     }
   ]);
@@ -39,7 +39,6 @@ export const Assistant: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Prepare history for Gemini
       const history = messages.map(m => ({
         role: m.role,
         parts: [{ text: m.text }]
@@ -71,39 +70,39 @@ export const Assistant: React.FC = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-      <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-dawn-500 to-orange-400 flex items-center justify-center shadow-sm">
-            <Sparkles className="w-5 h-5 text-white" />
+    <div className="h-[calc(100vh-6rem)] flex flex-col bg-white rounded-3xl border border-cream-200 shadow-sm overflow-hidden">
+      <div className="p-6 border-b border-cream-200 bg-cream-50 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-dawn-500 to-dawn-600 flex items-center justify-center shadow-lg shadow-dawn-200">
+            <Sparkles className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="font-bold text-slate-800">Dawn Assistant</h2>
-            <p className="text-xs text-slate-500 flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
-              Online • Powered by Gemini 2.5
+            <h2 className="font-serif font-bold text-xl text-dawn-900">Bakery Assistant</h2>
+            <p className="text-xs text-dawn-600 flex items-center gap-1.5 font-medium">
+              <span className="w-2 h-2 rounded-full bg-green-500 inline-block shadow-[0_0_8px_rgba(34,197,94,0.4)]"></span>
+              Always Online
             </p>
           </div>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-slate-50/30">
+      <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-[#fffdfa]">
         {messages.map((msg) => (
           <div
             key={msg.id}
             className={`flex gap-4 ${msg.role === MessageRole.USER ? 'flex-row-reverse' : 'flex-row'}`}
           >
             <div className={`
-              w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
-              ${msg.role === MessageRole.USER ? 'bg-slate-800' : 'bg-dawn-100'}
+              w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 border shadow-sm
+              ${msg.role === MessageRole.USER ? 'bg-dawn-900 border-dawn-900' : 'bg-white border-cream-200'}
             `}>
-              {msg.role === MessageRole.USER ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-dawn-600" />}
+              {msg.role === MessageRole.USER ? <User className="w-5 h-5 text-white" /> : <Croissant className="w-5 h-5 text-dawn-600" />}
             </div>
             <div className={`
-              max-w-[80%] p-4 rounded-2xl shadow-sm text-sm leading-relaxed
+              max-w-[80%] p-6 rounded-3xl shadow-sm text-[15px] leading-relaxed font-light
               ${msg.role === MessageRole.USER 
-                ? 'bg-slate-800 text-white rounded-tr-none' 
-                : 'bg-white text-slate-700 rounded-tl-none border border-slate-100'}
+                ? 'bg-dawn-600 text-white rounded-tr-none shadow-dawn-200' 
+                : 'bg-white text-dawn-900 rounded-tl-none border border-cream-200'}
             `}>
                <div className="markdown-body" dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br/>') }} />
             </div>
@@ -111,32 +110,32 @@ export const Assistant: React.FC = () => {
         ))}
         {isLoading && (
           <div className="flex gap-4">
-             <div className="w-8 h-8 rounded-full bg-dawn-100 flex items-center justify-center flex-shrink-0">
-               <Bot className="w-4 h-4 text-dawn-600" />
+             <div className="w-10 h-10 rounded-2xl bg-white border border-cream-200 flex items-center justify-center flex-shrink-0">
+               <Croissant className="w-5 h-5 text-dawn-600" />
              </div>
-             <div className="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-100 shadow-sm flex items-center gap-2">
+             <div className="bg-white px-6 py-4 rounded-3xl rounded-tl-none border border-cream-200 shadow-sm flex items-center gap-3">
                <Loader2 className="w-4 h-4 animate-spin text-dawn-600" />
-               <span className="text-sm text-slate-500">Dawn is thinking...</span>
+               <span className="text-sm text-dawn-500 italic">Consulting the recipe books...</span>
              </div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="p-4 bg-white border-t border-slate-100">
+      <div className="p-4 m-4 bg-white border border-cream-200 rounded-2xl shadow-sm focus-within:ring-2 focus-within:ring-dawn-500/20 focus-within:border-dawn-500 transition-all">
         <div className="relative flex items-center gap-2">
           <input
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Ask about recipes, ingredients, or troubleshooting..."
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-12 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-dawn-500/20 focus:border-dawn-500 transition-all"
+            placeholder="Ask about dough hydration, scaling recipes, or display tips..."
+            className="w-full bg-transparent border-none pl-2 pr-12 py-2 text-dawn-900 placeholder:text-dawn-300/80 focus:outline-none font-medium"
           />
           <button
             onClick={handleSend}
             disabled={isLoading || !inputValue.trim()}
-            className="absolute right-2 p-2 bg-dawn-600 text-white rounded-lg hover:bg-dawn-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="absolute right-0 p-2.5 bg-dawn-600 text-white rounded-xl hover:bg-dawn-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-dawn-200 hover:shadow-none"
           >
             <Send className="w-4 h-4" />
           </button>

@@ -2,6 +2,7 @@ import { GoogleGenAI, Type, Schema } from "@google/genai";
 
 // Initialize the Gemini client
 // The API key is expected to be in process.env.API_KEY
+// Ensure process.env exists via polyfill in index.html if running in browser
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const RECIPE_SCHEMA: Schema = {
@@ -46,7 +47,7 @@ export const generateRecipe = async (prompt: string) => {
   }
 };
 
-export const chatWithAssistant = async (history: {role: string, parts: [{text: string}]}[], newMessage: string) => {
+export const chatWithAssistant = async (history: {role: string, parts: {text: string}[]}[], newMessage: string) => {
   try {
     const chat = ai.chats.create({
       model: "gemini-2.5-flash",
@@ -77,7 +78,14 @@ export const analyzeTrends = async (topic: string) => {
         tools: [{ googleSearch: {} }]
       }
     });
-    return response.text;
+
+    // Extract grounding chunks if available
+    const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+
+    return {
+      text: response.text,
+      groundingChunks: groundingChunks
+    };
   } catch (error) {
     console.error("Trend analysis error:", error);
     throw error;

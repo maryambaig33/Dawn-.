@@ -27,7 +27,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex h-screen bg-cream-50">
       <Sidebar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
@@ -37,16 +37,16 @@ const App: React.FC = () => {
       
       <main className="flex-1 h-screen overflow-auto relative">
         {/* Mobile Header */}
-        <div className="lg:hidden bg-white border-b border-slate-200 p-4 sticky top-0 z-10 flex items-center justify-between">
+        <div className="lg:hidden bg-cream-50/95 backdrop-blur-sm border-b border-cream-200 p-4 sticky top-0 z-10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-             <div className="w-8 h-8 rounded-lg bg-dawn-600 flex items-center justify-center text-white font-bold">
+             <div className="w-8 h-8 rounded-lg bg-dawn-600 flex items-center justify-center text-white font-serif font-bold text-lg shadow-sm">
               D
             </div>
-            <span className="font-bold text-slate-800">Dawn</span>
+            <span className="font-serif font-bold text-xl text-dawn-900">Dawn</span>
           </div>
           <button 
             onClick={() => setIsMobileOpen(true)}
-            className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+            className="p-2 text-dawn-700 hover:bg-cream-200 rounded-lg transition-colors"
           >
             <Menu className="w-6 h-6" />
           </button>
