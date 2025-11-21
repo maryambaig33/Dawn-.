@@ -1,5 +1,12 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 
+// Declare process for TypeScript to avoid "Cannot find name 'process'" build errors
+declare const process: {
+  env: {
+    API_KEY: string;
+  }
+};
+
 // Initialize the Gemini client
 // The API key is expected to be in process.env.API_KEY
 // Ensure process.env exists via polyfill in index.html if running in browser
@@ -54,7 +61,7 @@ export const chatWithAssistant = async (history: {role: string, parts: {text: st
       config: {
         systemInstruction: "You are Dawn, an intelligent bakery partner assistant. You help bakers with technical advice, troubleshooting dough/batter issues, suggesting product pairings, and analyzing business trends. You are professional, warm, and encouraging.",
       },
-      history: history
+      history: history as any // Cast to any to avoid strict type mismatches with SDK Content type during build
     });
 
     const result = await chat.sendMessage({
@@ -83,7 +90,7 @@ export const analyzeTrends = async (topic: string) => {
     const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
 
     return {
-      text: response.text,
+      text: response.text || "Unable to generate analysis at this time.",
       groundingChunks: groundingChunks
     };
   } catch (error) {
